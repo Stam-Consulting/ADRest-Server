@@ -7,6 +7,8 @@ module.exports = (sequelize, DataTypes) => {
      heureDep: DataTypes.INTEGER,
      tarifvoy: DataTypes.INTEGER,
      UserId: DataTypes.INTEGER,
+     nbplace: DataTypes.INTEGER,
+     nbplacedispo: DataTypes.INTEGER
   }, {});
   Trajet.associate = function(models) {
     // associations can be defined here

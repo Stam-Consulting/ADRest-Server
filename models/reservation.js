@@ -1,7 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Reservation = sequelize.define('Reservation', {
-   
+    UserId: DataTypes.INTEGER,
+    TrajetId: DataTypes.INTEGER,
+    nbplaceareserv: DataTypes.INTEGER,
+
   }, {});
   Reservation.associate = function(models) {
     // associations can be defined here

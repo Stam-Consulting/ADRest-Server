@@ -3,7 +3,7 @@
 var express  = require ('express');
 var userCtrl = require ('./routes/usersCtrl');
 var trajetCtrl = require ('./routes/trajetsCtrl');
-
+var reserCtrl  = require ('./routes/reservCtrl');
 
 // Router
 
@@ -22,6 +22,12 @@ apiRouter.route('/users/me/').put(userCtrl.updateUserProfile);
 
 apiRouter.route('/trajets/new/').post(trajetCtrl.CreateTrajet);
 apiRouter.route('/trajets/').get(trajetCtrl.Listtrajet);
+
+//Reservation routes
+
+apiRouter.route('/reservation/new').post(reserCtrl.reserver);
+apiRouter.route('/reservation/modif').post(reserCtrl.modifreserv);
+apiRouter.route('/reservation/annul').post(reserCtrl.annulreserv);
 
 return apiRouter;
 })();

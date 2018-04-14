@@ -16,40 +16,44 @@ module.exports = {
         //To implement
 
     var numtel =req.body.numtel;
-    var username = req.body.username;
+   // var username = req.body.username;
     var motdepass = req.body.motdepass;
-    var email =req.body.email;
+   // var email =req.body.email;
     var descrip = req.body.descrip;
+    var prenom =req.body.prenom;
+    var nom = req.body.nom;
 
-    if(numtel == null || username == null || motdepass == null ){
+    if(numtel == null || motdepass == null || prenom == null || nom == null ){
      return res.status(400).json({ 'error':'Infos manquantes'});
     }
 
-     if (username.length >= 13 || username.length< 5) {
+    /* if (username.length >= 13 || username.length< 5) {
          return res.status(400).json({ 'error' : 'votre nom utilisateur doit etre compris enntre 5 et 13 Caractetre'});
 
-     }
+     }*/
 
-     if(!Email_Regexp.test(email)){
+   /*  if(!Email_Regexp.test(email)){
         return res.status(400).json({ 'error' : 'votre email nest pas valide'});
-     }
+     }*/
 
      if(!PassWord_Regexp.test(motdepass)){
         return res.status(400).json({ 'error' : 'votre mot de passe de etre compris entre 4 et 8 Caractere'});
     }
 // verify donness
   models.User.findOne({
-  attributes: ['email'],
-  where : {email: email}
+  attributes: ['numtel'],
+  where : {numtel: numtel}
   })
 .then(function(UserFound){
 
     if(!UserFound){
      bcrypt.hash(motdepass,5,function(err,bcryptedPassword){
       var Newuser = models.User.create({
-      email: email,
-      username: username,
+     // email: email,
+     //username: username,
       numtel: numtel,
+      prenom: prenom,
+      nom: nom,
       motdepass: bcryptedPassword,
       descrip: descrip
      })
@@ -72,8 +76,7 @@ module.exports = {
 
 })
 .catch(function(err){
-
-    return res.status(500).json({ 'error':'Impossible de verifier user'});
+     return res.status(500).json({ 'error':'Impossible ajouter utilisateur'});
     
 });
    
@@ -98,15 +101,16 @@ module.exports = {
                     if(resBcrypt){
                       return res.status(200).json({
                         'UserId' :UserFound.id,
-                        'token' : jwtutils.generateTokenForUser(UserFound)
+                        'token' : jwtutils.generateTokenForUser(UserFound),
+                        'UserPrenom' : UserFound.prenom,
+                        'UserNom' : UserFound.nom,
                       });
                     }else{
                         return res.status(403).json({ 'error':'Mot de pass non valide'});
                     }
 
                    }
-                
-                
+    
                 );
                 }else{
                     return res.status(404).json({ 'error':'utilisateur non enregistré'});
